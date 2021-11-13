@@ -1,0 +1,53 @@
+{% extends 'myapp/base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="d-flex justify-content-center align-items-center" style="height: 50vh;">
+        <div class="text-center">
+            <h2 class="mb-3">{{ request.site.siteconfig.top_title }}</h2>
+            <p class="mb-3">{{ request.site.siteconfig.top_subtitle }}</p>
+        </div>
+    </div>
+</div>
+
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    <!-- Card deck -->
+
+    {% for item in post_list %}
+    <div class="col-md-4">
+
+        <!-- Card -->
+        <div class="card mb-4">
+            <!-- Card image -->
+            <div class="view overlay">
+                {% if item.thumbnail %}
+                <img class="card-img-top" src="{{ item.thumbnail.url }}" alt="{{ item.title }}">
+                {% else %}
+                <img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Others/images/43.jpg"
+                    alt="{{ item.title }}">
+                {% endif %}
+                <a href="{% url 'myapp:post_detail' item.id %}">
+                    <div class="mask rgba-white-slight"></div>
+                </a>
+            </div>
+
+            <!-- Card content -->
+            <div class="card-body">
+
+                <!-- Title -->
+                <h4 class="card-title"><a>{{ item.title }}<small>{{ item.author }}</small>></a></h4>
+                <p>{{ item.category }}</p>
+                <!-- Text -->
+                <p class="card-text">{{ item.content | safe | truncatechars_html:30 }}</p>
+                <!-- Button -->
+                <a href="{% url 'myapp:post_detail' item.id %}" class="btn btn-primary">Read More</a>
+
+            </div>
+
+        </div>
+    </div>
+    <!-- Card -->
+    {% endfor %}
+</div>
+
+{% endblock %}
